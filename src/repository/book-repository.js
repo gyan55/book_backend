@@ -14,6 +14,14 @@ class BookRepository extends CrudRepository {
         throw error;
     }
   }
+  async getAll(offset,limit){
+    try {
+        const book = await Book.find().skip(offset).limit(limit);
+        return book;
+      } catch (error) {
+          console.log(error);
+      }
+  }
 }
 
 export default BookRepository;

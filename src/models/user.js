@@ -1,4 +1,6 @@
 import mongoose from "mongoose";
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 
 const userSchema = new mongoose.Schema({
     email: {
@@ -19,6 +21,25 @@ const userSchema = new mongoose.Schema({
         ref : 'book' 
     }]
 }, {timestamps: true});
+
+userSchema.pre('save', function (next) {  //encrypting the password using bcrypt
+    const user = this;
+    const SALT = bcrypt.genSaltSync(9);
+    const encryptedPassword = bcrypt.hashSync(user.password, SALT);
+    user.password = encryptedPassword;
+    next();
+});
+
+userSchema.methods.comparePassword = function compare(password) {   //comparing password during login
+    return bcrypt.compareSync(password, this.password);
+}
+
+userSchema.methods.genJWT = function generate() {
+    return jwt.sign({id: this._id, email: this.email}, 'twitter_secret', { //creating the token
+        expiresIn: '1h'
+    });
+}
+
 
 
 
