@@ -29,5 +29,5 @@ const bookSchema = new mongoose.Schema({
 
 
 // we are creating a model called Book and it will follow the bookSchema
-const Book = mongoose.model('Tweet',bookSchema);
+const Book = mongoose.model('Book',bookSchema);
 export default Book;

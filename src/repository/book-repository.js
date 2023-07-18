@@ -14,10 +14,11 @@ class BookRepository extends CrudRepository {
         throw error;
     }
   }
-  async getAll(offset,limit){
+  async getAll(searchString){
     try {
-        const book = await Book.find().skip(offset).limit(limit);
-        return book;
+      const regex = new RegExp('^' + searchString, 'i');
+      const books = await Book.find({ title: regex });
+      return books;
       } catch (error) {
           console.log(error);
       }

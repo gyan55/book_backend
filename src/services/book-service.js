@@ -12,9 +12,9 @@ class BookService {
 
     }
 
-    async get(author) {
-        const book = await this.bookRepository.getAll(author);
-        return book;
+    async get(searchString) {
+        const books = await this.bookRepository.getAll(searchString);
+        return books;
     }
 }
 
