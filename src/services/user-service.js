@@ -47,6 +47,22 @@ class UserService {
             throw error;
         }
     }  
+    async  addToFavorites(userId, bookId) {
+        try {
+          await this.userRepository.addToFavorites(userId, bookId);
+        } catch (error) {
+            throw error;
+        }
+        
+    }
+    async  getAllFavorites(userId) {
+        const user = await this.userRepository.findById(userId);
+        if (!user) {
+          throw new Error('User not found');
+        }
+        const favourites = user.favourites;
+        return favourites;
+    }
 }
 
 
